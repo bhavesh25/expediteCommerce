@@ -1,9 +1,10 @@
 /*
 Approach:
 1. Parsing of each response data and created common array of objects.
-2. structure of object is : {Id:rowId, data=[{key:uniquekey,value:value of attribute}...]}
+2. structure of rows object is : {Id:rowId, data=[{key:uniquekey,value:value of attribute}...]}
 3. Created common header object array that can be merged with other response data.
 4. lineItemDataHeaders- this will be configured manually, as the headers of line data need to be specified.
+5. Structure of Header object is: {Id:xyz, data:value of header coloumn}
 */
 import { LightningElement,track } from 'lwc';
 import {getSummaryYears,getSummaryMonths,getLineItemData} from './responseFile.js';
@@ -47,8 +48,11 @@ export default class ShowUserIdData extends LightningElement {
         this.summaryYears = getSummaryYears();
         this.summaryMonths = getSummaryMonths();
         this.lineItemData = getLineItemData();   
-        debugger;
         this.listValues = [];
+
+        if(!(this.summaryYears && this.summaryMonths && this.lineItemData && this.summaryYears.status==='success' && this.summaryMonths.status==='success' && this.lineItemData.length )){
+            return;
+        }
 
         //line item header creation.
         for (let property in this.lineItemDataHeaders) {
@@ -75,7 +79,7 @@ export default class ShowUserIdData extends LightningElement {
 
 
         
-        //empty data for summary row.
+        //Filling empty cell for summary row.
         let tempArray = [];
         for(let i =0; i< this.lineitemheader.length;i++){
             tempArray.push({
