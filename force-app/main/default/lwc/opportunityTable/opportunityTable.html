@@ -1,7 +1,7 @@
 <template>
   
     <lightning-card  title="Forecast Name">   
-        
+        <!--Pick list display block-->
         <div class="slds-clearfix greyColorClass">
             <div class="slds-float_right slds-p-around_small">
                 <select class="slds-select slds-p-left_x-small slds-p-right_x-small plColor" name = "View" onchange={changeHandler} >
@@ -10,30 +10,30 @@
                 </select> 
             </div>
           </div>
-    
-    <div class="overFlowXAuto slds-p-bottom_large slds-m-top_x-small">
-        <table if:true={displayTable} class="slds slds-table slds-table_cell-buffer ">
-            <thead>
-                <tr class="slds-border_bottom ">
-                    <template  for:each={header} for:item="headVal" >
-                        <th key={headVal.Id}    >
-                            <div class="slds-p-around_small "><span >{headVal.data}</span></div>
-                        </th>
+        <!--Table display block-->
+        <div class="overFlowXAuto slds-p-bottom_large slds-m-top_x-small">
+            <table if:true={displayTable} class="slds slds-table slds-table_cell-buffer ">
+                <thead>
+                    <tr class="slds-border_bottom ">
+                        <template  for:each={header} for:item="headVal" >
+                            <th key={headVal.Id}    >
+                                <div class="slds-p-around_small slds-text-title_caps"><span >{headVal.data}</span></div>
+                            </th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template  for:each={listValues} for:item="criterion" for:index="index">
+                        <tr key={criterion.Id} class="slds-border_bottom bodyRow" >
+                            <template if:true={criterion.data} for:each={criterion.data} for:item="row">
+                                <td data-field-api-name={row.fieldApiName} key={row.key} class="slds-text-body_regular tdthwidth" >
+                                    <div class="slds-p-around_small truncate">{row.value}</div>
+                                </td>
+                            </template>
+                        </tr>
                     </template>
-                </tr>
-            </thead>
-            <tbody>
-            <template  for:each={listValues} for:item="criterion" for:index="index">
-                <tr key={criterion.Id} class="slds-border_bottom bodyRow" >
-                    <template if:true={criterion.data} for:each={criterion.data} for:item="row">
-                        <td data-field-api-name={row.fieldApiName} key={row.key} class="slds-text-body_regular tdthwidth" >
-                            <div class="slds-p-around_small ">{row.value}</div>
-                        </td>
-                    </template>
-                </tr>
-            </template>
-        </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
     </lightning-card> 
 </template> 
